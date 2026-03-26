@@ -1,21 +1,33 @@
-export class CanvasView{
-	constructor({canvas, ctx})
-	{
-		this.canvas = canvas
-		this.ctx = ctx
+export class CanvasView {
+	constructor({ canvas, ctx }) {
+		this.canvas = canvas;
+		this.ctx = ctx;
 
-		this.canvas.width = canvas.offsetWidth;
-		this.canvas.height = canvas.offsetHeight;
+		this._setCanvasSize();
 
 		this.isDrawing = false;
 		this.lastX = 0;
 		this.lastY = 0;
 
-		this.ctx.strokeStyle = '#000'; // Color negro
+		this.ctx.strokeStyle = '#000';
+		this.ctx.lineWidth = 30;
+		this.ctx.lineJoin = 'round';
+		this.ctx.lineCap = 'round';
+
+		// Keep canvas dimensions in sync when the browser window is resized.
+		window.addEventListener('resize', () => this._setCanvasSize());
+	}
+
+	_setCanvasSize() {
+		this.canvas.width = this.canvas.offsetWidth;
+		this.canvas.height = this.canvas.offsetHeight;
+		// Re-apply stroke settings because resizing the canvas resets the context.
+		this.ctx.strokeStyle = '#000';
 		this.ctx.lineWidth = 30;
 		this.ctx.lineJoin = 'round';
 		this.ctx.lineCap = 'round';
 	}
+
 	startDrawing(e) {
 		this.isDrawing = true;
 		[this.lastX, this.lastY] = [e.offsetX, e.offsetY];
@@ -32,8 +44,8 @@ export class CanvasView{
 
 	stopDrawing() {
 		this.isDrawing = false;
-		//this.ctx.beginPath();
 	}
+
 	touchStart(e) {
 		const touch = e.touches[0];
 		const rect = this.canvas.getBoundingClientRect();
@@ -41,7 +53,10 @@ export class CanvasView{
 		this.lastY = touch.clientY - rect.top;
 		this.isDrawing = true;
 	}
-	touchMove(e){
+
+	touchMove(e) {
+		// Prevent the page from scrolling while the user draws on the canvas.
+		e.preventDefault();
 		if (!this.isDrawing) return;
 		const touch = e.touches[0];
 		const rect = this.canvas.getBoundingClientRect();
@@ -55,7 +70,7 @@ export class CanvasView{
 		this.lastY = y;
 	}
 
-	reset(){
+	reset() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 }

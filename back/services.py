@@ -11,7 +11,7 @@ class Service:
     def preprocess_image(self, blob):
         image = Image.open(io.BytesIO(blob)).convert("RGBA")
 
-        image = image.resize((28, 28), Image.BILINEAR)
+        image = image.resize((28, 28), Image.Resampling.BILINEAR)
 
         background = Image.new("RGB", image.size, (255, 255, 255))
         background.paste(image, (0, 0), image)

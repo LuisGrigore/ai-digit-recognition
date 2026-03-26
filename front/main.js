@@ -34,9 +34,11 @@ canvas.addEventListener('mouseout', () =>{
 canvas.addEventListener('touchstart', (e) => {
 	canvas_controller.touchStart(e)
 })
+// passive: false is required so that touchMove can call e.preventDefault()
+// to stop the page from scrolling while drawing.
 canvas.addEventListener('touchmove', (e) => {
     canvas_controller.touchMove(e)
-})
+}, { passive: false })
 
 canvas.addEventListener('touchend', () =>{
 	canvas_controller.stopDrawing()
@@ -58,6 +60,7 @@ canvas.addEventListener('touchcancel', () =>{
 
 submitButton.addEventListener('click', (e) => {
 	e.preventDefault();
+	if (!canvas_controller.hasDrawing()) return;
 	canvas.toBlob((image) => {
 		result_controller.sendImage(image);
 	}, 'image/png');

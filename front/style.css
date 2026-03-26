@@ -72,7 +72,7 @@ canvas{
 }
 
 
-.answear{
+.answer{
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -80,10 +80,10 @@ canvas{
 	justify-content: center
 }
 
-.answear p:first-child{
+.answer p:first-child{
 	margin-bottom: 10px;
 	
 }
-.answear p:nth-child(2){
+.answer p:nth-child(2){
 	font-weight: bold;
 }
