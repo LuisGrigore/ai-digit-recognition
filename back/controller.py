@@ -8,9 +8,10 @@ CORS(app)
 
 try:
     model = Model("mnist_model.h5")
-    service = Service(model, "recieved_digit.png")
+    service = Service(model)
 except Exception as e:
     print(e)
+    service = None
 
 
 @app.after_request
@@ -21,6 +22,8 @@ def add_cors_headers(response):
 
 @app.route("/model", methods=["POST", "GET"])
 def process():
+    if service is None:
+        return jsonify({"error": "Model not loaded"}), 503
     return jsonify(
         {"result": f"{str(service.classify(request.files['image'].read()))}"}
     )

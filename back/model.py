@@ -1,4 +1,3 @@
-import cv2
 import tensorflow as tf
 import numpy as np
 
@@ -9,10 +8,9 @@ class Model:
         except Exception:
             raise Exception("model couldn't be loaded")
 
-    def classify(self, image_path):
-        img = cv2.imread(image_path)
-        if img is None:
-            raise Exception("image could not be read.")
+    def classify(self, img):
+        if img.ndim < 3 or img.shape[2] < 1:
+            raise ValueError(f"Expected an RGB image array, got shape {img.shape}")
         img = img[:, :, 0]
         img = np.invert(np.array([img]))
         img = img / 255
