@@ -1,0 +1,52 @@
+.
+├── assets
+│   └── image.png
+├── a.txt
+├── back
+│   ├── controller.py
+│   ├── __init__.py
+│   ├── model.py
+│   ├── models
+│   │   ├── mnist_model.h5
+│   │   └── mnist_model.keras
+│   ├── __pycache__
+│   │   ├── model.cpython-312.pyc
+│   │   └── services.cpython-312.pyc
+│   ├── requirements.txt
+│   └── services.py
+├── front
+│   ├── dist
+│   │   ├── assets
+│   │   └── index.html
+│   ├── index.html
+│   ├── node_modules
+│   │   ├── detect-libc
+│   │   ├── fdir
+│   │   ├── lightningcss
+│   │   ├── lightningcss-linux-x64-gnu
+│   │   ├── nanoid
+│   │   ├── @oxc-project
+│   │   ├── picocolors
+│   │   ├── picomatch
+│   │   ├── postcss
+│   │   ├── @rolldown
+│   │   ├── rolldown
+│   │   ├── source-map-js
+│   │   ├── tinyglobby
+│   │   └── vite
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public
+│   └── src
+│       ├── assets
+│       ├── canvas
+│       ├── client.js
+│       ├── main.js
+│       ├── result
+│       └── style.css
+├── README.md
+├── render.yaml
+└── scripts
+    └── train.py
+
+29 directories, 21 files
