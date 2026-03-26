@@ -1,7 +1,8 @@
-// Base URL for the API. Override by setting window.API_BASE_URL before loading
-// this module (e.g. from a server-rendered config block), or update this
-// default for your deployment environment.
-const API_BASE_URL = window.API_BASE_URL ?? 'http://127.0.0.1:5000';
+// Base URL for the API. Defaults to an empty string so all requests use the
+// same origin as the page (works when Flask serves both the frontend and the
+// API). Override by setting window.API_BASE_URL before loading this module
+// when the API lives on a different host.
+const API_BASE_URL = window.API_BASE_URL ?? '';
 
 class Client {
 	async sendImage(image) {

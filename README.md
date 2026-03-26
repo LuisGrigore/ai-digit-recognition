@@ -76,10 +76,12 @@ Navigate to `http://127.0.0.1:5000/app` in your browser.
 
 ## Configuration
 
-| Environment variable | Default                  | Description                                      |
-|----------------------|--------------------------|--------------------------------------------------|
-| `FLASK_DEBUG`        | `0`                      | Set to `1` to enable Flask debug mode            |
-| `CORS_ORIGIN`        | `http://127.0.0.1:5000`  | Allowed CORS origin for the `/model` endpoint    |
+| Environment variable | Default                        | Description                                                  |
+|----------------------|--------------------------------|--------------------------------------------------------------|
+| `FLASK_DEBUG`        | `0`                            | Set to `1` to enable Flask debug mode                        |
+| `CORS_ORIGIN`        | `http://127.0.0.1:5000`        | Allowed CORS origin for the `/model` endpoint                |
+| `PORT`               | `5000`                         | Port the Flask dev-server listens on (set automatically by hosting platforms) |
+| `MODEL_PATH`         | `<script-dir>/mnist_model.keras` | Absolute or relative path to the trained Keras model file  |
 
 To configure the API base URL on the frontend, set `window.API_BASE_URL` before `main.js` is loaded:
 
@@ -87,6 +89,37 @@ To configure the API base URL on the frontend, set `window.API_BASE_URL` before 
 <script>window.API_BASE_URL = 'https://your-api-domain.com';</script>
 <script type="module" src="main.js"></script>
 ```
+
+## Free Deployment on Render.com
+
+[Render.com](https://render.com) offers a free tier for web services that is well-suited for this project.
+
+### Steps
+
+1. **Push the repository to GitHub** (or GitLab / Bitbucket).
+
+2. **Create a new Web Service** on Render and point it at your repository.
+   Render will auto-detect `render.yaml` and pre-fill the build/start commands.
+
+3. **Build command** (from `render.yaml`):
+   ```
+   pip install -r back/requirements.txt && python back/train.py
+   ```
+   This installs all Python dependencies and trains the MNIST model during the build phase.
+   The trained file is saved to `back/mnist_model.keras` and is available at runtime.
+
+4. **Start command** (from `render.yaml`):
+   ```
+   gunicorn --chdir back --workers 2 controller:app
+   ```
+
+5. Once deployed, open `https://<your-service>.onrender.com/app`.
+
+### Notes
+
+- The free tier spins down after 15 minutes of inactivity; the first request after a cold start may take ~30–60 seconds.
+- TensorFlow installation is large (~500 MB); Render's free build minutes should cover it.
+- No separate environment variables are required — defaults in `render.yaml` handle everything.
 
 ## How It Works
 

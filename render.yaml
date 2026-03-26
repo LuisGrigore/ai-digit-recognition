@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: ai-digit-recognition
+    runtime: python
+    # Install dependencies then train the model if it hasn't been trained yet.
+    buildCommand: >
+      pip install -r back/requirements.txt &&
+      python -c "
+      import os, subprocess;
+      subprocess.run(['python', 'back/train.py'], check=True)
+      if not os.path.exists('back/mnist_model.keras') else None
+      "
+    # Gunicorn serves the Flask app; 2 workers suit the free-tier RAM limit.
+    startCommand: gunicorn --chdir back --workers 2 controller:app
+    envVars:
+      - key: FLASK_DEBUG
+        value: "0"
