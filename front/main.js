@@ -46,14 +46,22 @@ canvas.addEventListener('touchcancel', () =>{
 })
 
 
-submitButton.addEventListener('click', () =>{
-	const dataURL = canvas.toDataURL('image/png');
-	fetch(dataURL).then((result) => {
-		result.blob().then((image) => {
-			result_controller.sendImage(image)
-		})
-	})
-})
+// submitButton.addEventListener('click', (e) =>{
+// 	e.preventDefault();
+// 	const dataURL = canvas.toDataURL('image/png');
+// 	fetch(dataURL).then((result) => {
+// 		result.blob().then((image) => {
+// 			result_controller.sendImage(image)
+// 		})
+// 	})
+// })
+
+submitButton.addEventListener('click', (e) => {
+	e.preventDefault();
+	canvas.toBlob((image) => {
+		result_controller.sendImage(image);
+	}, 'image/png');
+});
 
 resetButton.addEventListener('click', () =>{
 	canvas_controller.reset()

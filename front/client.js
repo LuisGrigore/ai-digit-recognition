@@ -10,6 +10,7 @@ class Client{
 		});
 		const data = await response.json()
 		return data.result
+
 	}
 }
 export default Client
